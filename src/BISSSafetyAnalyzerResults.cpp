@@ -1,21 +1,21 @@
-#include "BISSAnalyzerResults.h"
+#include "BISSSAfetyAnalyzerResults.h"
 #include <AnalyzerHelpers.h>
-#include "BISSAnalyzer.h"
-#include "BISSAnalyzerSettings.h"
+#include "BISSSafetyAnalyzer.h"
+#include "BISSSafetyAnalyzerSettings.h"
 
 #include <iostream>
 #include <fstream>
-BISSAnalyzerResults::BISSAnalyzerResults( BISSAnalyzer* analyzer, BISSAnalyzerSettings* settings )
+BISSSAfetyAnalyzerResults::BISSSafetyAnalyzerResults( BISSSafetyAnalyzer* analyzer, BISSSAfetyAnalyzerSettings* settings )
     : AnalyzerResults(), mSettings( settings ), mAnalyzer( analyzer )
 {
 }
 
-BISSAnalyzerResults::~BISSAnalyzerResults()
+BISSSafetyAnalyzerResults::~BISSSafetyAnalyzerResults()
 {
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
-void BISSAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& channel, DisplayBase display_base )
+void BISSSafetyAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& channel, DisplayBase display_base )
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     ClearResultStrings();
@@ -37,20 +37,40 @@ void BISSAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& channel,
 
                 switch( frame.mFlags )
                 {
-                case 1:
+                case 1: // CPW-DATA
                     sprintf( result_str0, "[ %s ]", number_str );
-                    sprintf( result_str1, "DATA [ %s ]", number_str );
-                    sprintf( result_str2, "Serial Data [ %s ]", number_str );
+                    sprintf( result_str1, "CPW [ %s ]", number_str );
+                    sprintf( result_str2, "CPW-DATA [ %s ]", number_str );
                     break;
-                case 2:
+                case 2: // CPW-nEnW
                     sprintf( result_str0, "[ %s ]", number_str );
                     sprintf( result_str1, "nEnW [ %s ]", number_str );
-                    sprintf( result_str2, "nError/nWarning [ %s ]", number_str );
+                    sprintf( result_str2, "CPW-nEnW [ %s ]", number_str );
                     break;
-                case 3:
+                case 3: // CPW-CRC6
                     sprintf( result_str0, "[ %s ]", number_str );
-                    sprintf( result_str1, "CRC [ %s ]", number_str );
-                    sprintf( result_str2, "CRC [ %s ]", number_str );
+                    sprintf( result_str1, "CRC6 [ %s ]", number_str );
+                    sprintf( result_str2, "CPW-CRC6 [ %s ]", number_str );
+                    break;
+                case 4: // SPW-DATA
+                    sprintf( result_str0, "[ %s ]", number_str );
+                    sprintf( result_str1, "SPW [ %s ]", number_str );
+                    sprintf( result_str2, "SPW-DATA [ %s ]", number_str );
+                    break;
+                case 5: // SPW-nEnW
+                    sprintf( result_str0, "[ %s ]", number_str );
+                    sprintf( result_str1, "nEnW [ %s ]", number_str );
+                    sprintf( result_str2, "SPW-nEnW [ %s ]", number_str );
+                    break;
+                case 6: // SPW-LC
+                    sprintf( result_str0, "[ %s ]", number_str );
+                    sprintf( result_str1, "LC [ %s ]", number_str );
+                    sprintf( result_str2, "SPW-LC [ %s ]", number_str );
+                    break;
+                case 7: // SPW-CRC16
+                    sprintf( result_str0, "[ %s ]", number_str );
+                    sprintf( result_str1, "CRC16 [ %s ]", number_str );
+                    sprintf( result_str2, "SPW-CRC16 [ %s ]", number_str );
                     break;
                     // default:
                     //	sprintf( result_str,"Fehler [ %s ]", number_str);
@@ -210,7 +230,7 @@ void BISSAnalyzerResults::GenerateBubbleText( U64 frame_index, Channel& channel,
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-void BISSAnalyzerResults::GenerateExportFile( const char* file, DisplayBase display_base, U32 export_type_user_id )
+void BISSSafetyAnalyzerResults::GenerateExportFile( const char* file, DisplayBase display_base, U32 export_type_user_id )
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     std::ofstream file_stream( file, std::ios::out );
@@ -228,7 +248,7 @@ void BISSAnalyzerResults::GenerateExportFile( const char* file, DisplayBase disp
         file_stream << "Time[s],CDM_S/CTS,CDM_ID,CDM_ADR,CDM_CRCADR,CDM_RW,CDM_DATA,CDM_CRCDATA,CDS_IDL,CDS_0,CDS_RW,CDS_DATA,CDS_CRCDATA"
                     << std::endl;
     else
-        file_stream << "Time[s],DATA,ERR-WARN,CRC" << std::endl;
+        file_stream << "Time[s],CPW-DATA,CPW-nEnW,CPW-CRC6,SPW-DATA,SPW-nEnW,SPW-LC,SPW-CRC16" << std::endl;
 
     // file_stream << "" << std::endl;
 
@@ -252,13 +272,25 @@ void BISSAnalyzerResults::GenerateExportFile( const char* file, DisplayBase disp
         case 1: // Sensordaten
             switch( frame.mFlags )
             {
-            case 1: // DATA
+            case 1: // CPW-DATA
                 AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
                 break;
-            case 2: // ERR-WARN
+            case 2: // CPW-nEnW
                 AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
                 break;
-            case 3: // CRC
+            case 3: // CPW-CRC6
+                AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
+                break;
+            case 4: // SPW-DATA
+                AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
+                break;
+            case 5: // SPW-nEnW
+                AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
+                break;
+            case 6: // SPW-LC
+                AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
+                break;
+            case 7: // SPW-CRC16
                 AnalyzerHelpers::GetNumberString( frame.mData1, display_base, frame.mData2, number_str, 128 );
                 bEndFrame = true;
                 bNewFrame = true;
@@ -383,7 +415,7 @@ void BISSAnalyzerResults::GenerateExportFile( const char* file, DisplayBase disp
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
-void BISSAnalyzerResults::GenerateFrameTabularText( U64 frame_index, DisplayBase display_base )
+void BISSSafetyAnalyzerResults::GenerateFrameTabularText( U64 frame_index, DisplayBase display_base )
 {
     ClearTabularText();
 
@@ -403,17 +435,26 @@ void BISSAnalyzerResults::GenerateFrameTabularText( U64 frame_index, DisplayBase
 
                 switch( frame.mFlags )
                 {
-                case 1:
-
-                    sprintf( result_str2, "Serial Data [ %s ]", number_str );
+                case 1: // CPW-DATA
+                    sprintf( result_str2, "CPW-DATA [ %s ]", number_str );
                     break;
-                case 2:
-
-                    sprintf( result_str2, "nError/nWarning [ %s ]", number_str );
+                case 2: // CPW-nEnW
+                    sprintf( result_str2, "CPW-nEnW [ %s ]", number_str );
                     break;
-                case 3:
-
-                    sprintf( result_str2, "CRC [ %s ]", number_str );
+                case 3: // CPW-CRC6
+                    sprintf( result_str2, "CPC_CRC6 [ %s ]", number_str );
+                    break;
+                case 4: // SPW-DATA
+                    sprintf( result_str2, "SPW_DATA [ %s ]", number_str );
+                    break;
+                case 5: // SPW-nEnW
+                    sprintf( result_str2, "SPW-nEnW [ %s ]", number_str );
+                    break;
+                case 6: // SPW-LC
+                    sprintf( result_str2, "SPW-LC [ %s ]", number_str );
+                    break;
+                case 7: // SPW-CRC16
+                    sprintf( result_str2, "SPW-CRC16 [ %s ]", number_str );
                     break;
                     // default:
                     //	sprintf( result_str,"Fehler [ %s ]", number_str);
@@ -515,13 +556,13 @@ void BISSAnalyzerResults::GenerateFrameTabularText( U64 frame_index, DisplayBase
     }
 }
 
-void BISSAnalyzerResults::GeneratePacketTabularText( U64 packet_id, DisplayBase display_base )
+void BISSSafetyAnalyzerResults::GeneratePacketTabularText( U64 packet_id, DisplayBase display_base )
 {
     ClearResultStrings();
     AddResultString( "not supported" );
 }
 
-void BISSAnalyzerResults::GenerateTransactionTabularText( U64 transaction_id, DisplayBase display_base )
+void BISSSAfetyAnalyzerResults::GenerateTransactionTabularText( U64 transaction_id, DisplayBase display_base )
 {
     ClearResultStrings();
     AddResultString( "not supported" );
