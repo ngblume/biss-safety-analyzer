@@ -1,14 +1,14 @@
-#ifndef BISS_ANALYZER_SETTINGS
-#define BISS_ANALYZER_SETTINGS
+#ifndef BISSSAFETY_ANALYZER_SETTINGS
+#define BISSSAFETY_ANALYZER_SETTINGS
 
 #include <AnalyzerSettings.h>
 #include <AnalyzerTypes.h>
 
-class BISSAnalyzerSettings : public AnalyzerSettings
+class BISSSafetyAnalyzerSettings : public AnalyzerSettings
 {
   public:
-    BISSAnalyzerSettings();
-    virtual ~BISSAnalyzerSettings();
+    BISSSafetyAnalyzerSettings();
+    virtual ~BISSSafetyAnalyzerSettings();
 
     virtual bool SetSettingsFromInterfaces();
     void UpdateInterfacesFromSettings();
@@ -20,7 +20,8 @@ class BISSAnalyzerSettings : public AnalyzerSettings
     Channel mSloChannel;
 
     // U32 mBitRate;
-    U32 mDataLength;
+    U32 mDataLengthCPW;
+    U32 mDataLengthSPW;
 
     double mDatenart;
 
@@ -28,8 +29,9 @@ class BISSAnalyzerSettings : public AnalyzerSettings
     std::auto_ptr<AnalyzerSettingInterfaceChannel> mMaChannelInterface;
     std::auto_ptr<AnalyzerSettingInterfaceChannel> mSloChannelInterface;
     // std::auto_ptr< AnalyzerSettingInterfaceInteger >	mBitRateInterface;
-    std::auto_ptr<AnalyzerSettingInterfaceInteger> mDataLengthInterface;
+    std::auto_ptr<AnalyzerSettingInterfaceInteger> mDataLengthCPWInterface;
+    std::auto_ptr<AnalyzerSettingInterfaceInteger> mDataLengthSPWInterface;
     std::auto_ptr<AnalyzerSettingInterfaceNumberList> mDatenartInterface;
 };
 
-#endif // BISS_ANALYZER_SETTINGS
+#endif // BISSSAFETY_ANALYZER_SETTINGS

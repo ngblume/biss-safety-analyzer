@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.11)
-project(biss_analyzer)
+project(bisssafety_analyzer)
 
 add_definitions( -DLOGIC2 )
 
@@ -14,14 +14,14 @@ set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 include(ExternalAnalyzerSDK)
 
 set(SOURCES 
-src/BISSAnalyzer.cpp
-src/BISSAnalyzer.h
-src/BISSAnalyzerResults.cpp
-src/BISSAnalyzerResults.h
-src/BISSAnalyzerSettings.cpp
-src/BISSAnalyzerSettings.h
-src/BISSSimulationDataGenerator.cpp
-src/BISSSimulationDataGenerator.h
+src/BISSSafetyAnalyzer.cpp
+src/BISSSafetyAnalyzer.h
+src/BISSSafetyAnalyzerResults.cpp
+src/BISSSafetyAnalyzerResults.h
+src/BISSSafetyAnalyzerSettings.cpp
+src/BISSSafetyAnalyzerSettings.h
+src/BISSSafetySimulationDataGenerator.cpp
+src/BISSSafetySimulationDataGenerator.h
 )
 
-add_analyzer_plugin(biss_analyzer SOURCES ${SOURCES})
+add_analyzer_plugin(bisssafety_analyzer SOURCES ${SOURCES})

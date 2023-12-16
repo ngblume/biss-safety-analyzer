@@ -1,16 +1,16 @@
-#ifndef BISS_ANALYZER_H
-#define BISS_ANALYZER_H
+#ifndef BISSSAFETY_ANALYZER_H
+#define BISSSAFETY_ANALYZER_H
 
 #include <Analyzer.h>
-#include "BISSAnalyzerResults.h"
-#include "BISSSimulationDataGenerator.h"
+#include "BISSSafetyAnalyzerResults.h"
+#include "BISSSafetySimulationDataGenerator.h"
 
-class BISSAnalyzerSettings;
-class BISSAnalyzer : public Analyzer2
+class BISSSafetyAnalyzerSettings;
+class BISSSafetyAnalyzer : public Analyzer2
 {
   public:
-    BISSAnalyzer();
-    virtual ~BISSAnalyzer();
+    BISSSafetyAnalyzer();
+    virtual ~BISSSafetyAnalyzer();
     virtual void WorkerThread();
 
     virtual U32 GenerateSimulationData( U64 newest_sample_requested, U32 sample_rate, SimulationChannelDescriptor** simulation_channels );
@@ -31,12 +31,12 @@ class BISSAnalyzer : public Analyzer2
     void ShowCdmCds();
 
   protected: // vars
-    std::auto_ptr<BISSAnalyzerSettings> mSettings;
-    std::auto_ptr<BISSAnalyzerResults> mResults;
+    std::auto_ptr<BISSSafetyAnalyzerSettings> mSettings;
+    std::auto_ptr<BISSSafetyAnalyzerResults> mResults;
     AnalyzerChannelData* mMa;
     AnalyzerChannelData* mSlo;
 
-    BISSSimulationDataGenerator mSimulationDataGenerator;
+    BISSSafetySimulationDataGenerator mSimulationDataGenerator;
     bool mSimulationInitilized;
 
     // Serial analysis vars:
@@ -73,7 +73,7 @@ class BISSAnalyzer : public Analyzer2
     U64 m_endperiod;
     int m_samplesperperiod;
 
-    BitState m_sdata_array[ 500 ];
+    BitState m_sdata_array[ 500 ]; //  shoudl be sufficient even with safety data
     U64 m_sdata_samplenummer_array[ 500 ];
 
 
@@ -84,4 +84,4 @@ extern "C" ANALYZER_EXPORT const char* __cdecl GetAnalyzerName();
 extern "C" ANALYZER_EXPORT Analyzer* __cdecl CreateAnalyzer();
 extern "C" ANALYZER_EXPORT void __cdecl DestroyAnalyzer( Analyzer* analyzer );
 
-#endif // BISS_ANALYZER_H
+#endif // BISSSAFETY_ANALYZER_H

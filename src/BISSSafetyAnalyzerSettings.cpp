@@ -1,37 +1,47 @@
-#include "BISSAnalyzerSettings.h"
+#include "BISSSafetyAnalyzerSettings.h"
 #include <AnalyzerHelpers.h>
 
 
-BISSAnalyzerSettings::BISSAnalyzerSettings()
-    : mMaChannel( UNDEFINED_CHANNEL ), mSloChannel( UNDEFINED_CHANNEL ), mDataLength( 9 ), mDatenart()
-/// mBitRate( 9600 )
+BISSSafetyAnalyzerSettings::BISSSafetyAnalyzerSettings()
+    : mMaChannel( UNDEFINED_CHANNEL ), mSloChannel( UNDEFINED_CHANNEL ), mDataLengthCPW( 24 ), mDataLengthSPW( 16 ), mDatenart( )
 {
     //---------------------------------------------------------------------------------------------------------------------------------
+    // MaChannel = MASTER OUT / CLOCK
     mMaChannelInterface.reset( new AnalyzerSettingInterfaceChannel() );
     mMaChannelInterface->SetTitleAndTooltip( "MA", "" );
     mMaChannelInterface->SetChannel( mMaChannel );
     //---------------------------------------------------------------------------------------------------------------------------------
+    // SloChannel = Slave OUT / DATA
     mSloChannelInterface.reset( new AnalyzerSettingInterfaceChannel() );
     mSloChannelInterface->SetTitleAndTooltip( "SLO", "" );
     mSloChannelInterface->SetChannel( mSloChannel );
     //---------------------------------------------------------------------------------------------------------------------------------
+    // DataType (Register OR Single Cycle Data)
     mDatenartInterface.reset( new AnalyzerSettingInterfaceNumberList() );
     mDatenartInterface->SetTitleAndTooltip( "Data Type", "Specify the type of data to be analyzed" );
     mDatenartInterface->AddNumber( 0, "Register Data", "" );
-    mDatenartInterface->AddNumber( 1, "Single Cycle Data", "" );
+    mDatenartInterface->AddNumber( 1, "Single Cycle Data SAFETY", "" );
     mDatenartInterface->SetNumber( mDatenart );
     //---------------------------------------------------------------------------------------------------------------------------------
-    mDataLengthInterface.reset( new AnalyzerSettingInterfaceInteger() );
-    mDataLengthInterface->SetTitleAndTooltip( "Serial data length (Bit)", "Specify the serial data length in bit" );
-    mDataLengthInterface->SetMax( 64 );
-    mDataLengthInterface->SetMin( 9 );
-    mDataLengthInterface->SetInteger( mDataLength );
+    // DataLength CPW
+    mDataLengthCPWInterface.reset( new AnalyzerSettingInterfaceInteger() );
+    mDataLengthCPWInterface->SetTitleAndTooltip( "CPW - Data length (Bit)", "Specify the CPW (Control Position Word) serial data length in bit" );
+    mDataLengthCPWInterface->SetMax( 64 );
+    mDataLengthCPWInterface->SetMin( 9 );
+    mDataLengthCPWInterface->SetInteger( mDataLengthCPW );
+    //---------------------------------------------------------------------------------------------------------------------------------
+    // DataLength SPW
+    mDataLengthSPWInterface.reset( new AnalyzerSettingInterfaceInteger() );
+    mDataLengthSPWInterface->SetTitleAndTooltip( "SPW - Data length (Bit)", "Specify the SPW (Safety Position Word) serial data length in bit" );
+    mDataLengthSPWInterface->SetMax( 64 );
+    mDataLengthSPWInterface->SetMin( 9 );
+    mDataLengthSPWInterface->SetInteger( mDataLengthSPW );
     //---------------------------------------------------------------------------------------------------------------------------------
     AddInterface( mMaChannelInterface.get() );
     AddInterface( mSloChannelInterface.get() );
     AddInterface( mDatenartInterface.get() );
-    AddInterface( mDataLengthInterface.get() );
-    // AddInterface( mBitRateInterface.get() );
+    AddInterface( mDataLengthCPWInterface.get() );
+    AddInterface( mDataLengthSPWInterface.get() );
 
     AddExportOption( 0, "Export as text/csv file" );
     AddExportExtension( 0, "text", "txt" );
@@ -42,19 +52,12 @@ BISSAnalyzerSettings::BISSAnalyzerSettings()
     AddChannel( mSloChannel, "SLO", false );
     //---------------------------------------------------------------------------------------------------------------------------------
 
-    /*
-    mBitRateInterface.reset( new AnalyzerSettingInterfaceInteger() );
-    mBitRateInterface->SetTitleAndTooltip( "Bit Rate (Bits/S)",  "Specify the bit rate in bits per second." );
-    mBitRateInterface->SetMax( 6000000 );
-    mBitRateInterface->SetMin( 1 );
-    mBitRateInterface->SetInteger( mBitRate );
-*/
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-BISSAnalyzerSettings::~BISSAnalyzerSettings()
+BISSSafetyAnalyzerSettings::~BISSSafetyAnalyzerSettings()
 //---------------------------------------------------------------------------------------------------------------------------------
 {
 }
@@ -62,13 +65,13 @@ BISSAnalyzerSettings::~BISSAnalyzerSettings()
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-bool BISSAnalyzerSettings::SetSettingsFromInterfaces()
+bool BISSSafetyAnalyzerSettings::SetSettingsFromInterfaces()
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     mMaChannel = mMaChannelInterface->GetChannel();
     mSloChannel = mSloChannelInterface->GetChannel();
-    // mBitRate = mBitRateInterface->GetInteger();
-    mDataLength = mDataLengthInterface->GetInteger();
+    mDataLengthCPW = mDataLengthCPWInterface->GetInteger();
+    mDataLengthCPW = mDataLengthSPWInterface->GetInteger();
     mDatenart = mDatenartInterface->GetNumber();
 
     ClearChannels();
@@ -81,20 +84,20 @@ bool BISSAnalyzerSettings::SetSettingsFromInterfaces()
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-void BISSAnalyzerSettings::UpdateInterfacesFromSettings()
+void BISSSafetyAnalyzerSettings::UpdateInterfacesFromSettings()
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     mMaChannelInterface->SetChannel( mMaChannel );
     mSloChannelInterface->SetChannel( mSloChannel );
-    // mBitRateInterface->SetInteger( mBitRate );
-    mDataLengthInterface->SetInteger( mDataLength );
+    mDataLengthCPWInterface->SetInteger( mDataLengthCPW );
+    mDataLengthSPWInterface->SetInteger( mDataLengthSPW );
     mDatenartInterface->SetNumber( mDatenart );
 }
 //---------------------------------------------------------------------------------------------------------------------------------
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-void BISSAnalyzerSettings::LoadSettings( const char* settings )
+void BISSSafetyAnalyzerSettings::LoadSettings( const char* settings )
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     SimpleArchive text_archive;
@@ -102,8 +105,8 @@ void BISSAnalyzerSettings::LoadSettings( const char* settings )
 
     text_archive >> mMaChannel;
     text_archive >> mSloChannel;
-    // text_archive >> mBitRate;
-    text_archive >> mDataLength;
+    text_archive >> mDataLengthCPW;
+    text_archive >> mDataLengthSPW;
     text_archive >> mDatenart;
 
     ClearChannels();
@@ -116,15 +119,15 @@ void BISSAnalyzerSettings::LoadSettings( const char* settings )
 
 
 //---------------------------------------------------------------------------------------------------------------------------------
-const char* BISSAnalyzerSettings::SaveSettings()
+const char* BISSSafetyAnalyzerSettings::SaveSettings()
 //---------------------------------------------------------------------------------------------------------------------------------
 {
     SimpleArchive text_archive;
 
     text_archive << mMaChannel;
     text_archive << mSloChannel;
-    // text_archive << mBitRate;
-    text_archive << mDataLength;
+    text_archive << mDataLengthCPW;
+    text_archive << mDataLengthSPW;
     text_archive << mDatenart;
 
     return SetReturnString( text_archive.GetString() );

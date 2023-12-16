@@ -1,19 +1,19 @@
-#include "BISSSimulationDataGenerator.h"
-#include "BISSAnalyzerSettings.h"
+#include "BISSSafetySimulationDataGenerator.h"
+#include "BISSSafetyAnalyzerSettings.h"
 
 #include <AnalyzerHelpers.h>
 
-BISSSimulationDataGenerator::BISSSimulationDataGenerator()
+BISSSafetySimulationDataGenerator::BISSSafetySimulationDataGenerator()
 {
 }
 
-BISSSimulationDataGenerator::~BISSSimulationDataGenerator()
+BISSSafetySimulationDataGenerator::~BISSSafetySimulationDataGenerator()
 {
 }
 
 
 //-------------------------------------------------------------------------------------------------
-void BISSSimulationDataGenerator::Initialize( U32 simulation_sample_rate, BISSAnalyzerSettings* settings )
+void BISSSafetySimulationDataGenerator::Initialize( U32 simulation_sample_rate, BISSSafetyAnalyzerSettings* settings )
 //-------------------------------------------------------------------------------------------------
 {
     mSimulationSampleRateHz = simulation_sample_rate;
@@ -21,16 +21,16 @@ void BISSSimulationDataGenerator::Initialize( U32 simulation_sample_rate, BISSAn
 
     mClockGenerator.Init( 4000000, simulation_sample_rate );
 
-    mMa = mBiSSSimulationChannels.Add( settings->mMaChannel, mSimulationSampleRateHz, BIT_HIGH );
-    mSlo = mBiSSSimulationChannels.Add( settings->mSloChannel, mSimulationSampleRateHz, BIT_HIGH );
+    mMa = mBiSSSafetySimulationChannels.Add( settings->mMaChannel, mSimulationSampleRateHz, BIT_HIGH );
+    mSlo = mBiSSSafetySimulationChannels.Add( settings->mSloChannel, mSimulationSampleRateHz, BIT_HIGH );
 
-    mBiSSSimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 10.0 ) ); // insert 10 bit-periods of idle
+    mBiSSSafetySimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 10.0 ) ); // insert 10 bit-periods of idle
 }
 //-------------------------------------------------------------------------------------------------
 
 
 //-------------------------------------------------------------------------------------------------
-U32 BISSSimulationDataGenerator::GenerateSimulationData( U64 largest_sample_requested, U32 sample_rate,
+U32 BISSSafetySimulationDataGenerator::GenerateSimulationData( U64 largest_sample_requested, U32 sample_rate,
                                                          SimulationChannelDescriptor** simulation_channel )
 //-------------------------------------------------------------------------------------------------
 {
@@ -39,20 +39,20 @@ U32 BISSSimulationDataGenerator::GenerateSimulationData( U64 largest_sample_requ
 
     while( mMa->GetCurrentSampleNumber() < adjusted_largest_sample_requested )
     {
-        CreateBiSSFrame();
+        CreateBiSSSafetyFrame();
     }
 
-    *simulation_channel = mBiSSSimulationChannels.GetArray();
-    return mBiSSSimulationChannels.GetCount();
+    *simulation_channel = mBiSSSafetySimulationChannels.GetArray();
+    return mBiSSSafetySimulationChannels.GetCount();
 }
 //-------------------------------------------------------------------------------------------------
 
 
 //-------------------------------------------------------------------------------------------------
-void BISSSimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
+void BISSSafetySimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
 //-------------------------------------------------------------------------------------------------
 {
-    mBiSSSimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 100.0 ) );
+    mBiSSSafetySimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 100.0 ) );
 
     unsigned long ulDataLength;
     ulDataLength = mSettings->mDataLength;
@@ -63,7 +63,7 @@ void BISSSimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
     for( U32 i = 0; i < ulMaEdges; i++ )
     {
         mMa->Transition();
-        mBiSSSimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 1.0 ) );
+        mBiSSSafetySimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 1.0 ) );
 
         if( i == 2 )
             mSlo->Transition();
@@ -124,7 +124,7 @@ void BISSSimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
 
 
 //-------------------------------------------------------------------------------------------------
-void BISSSimulationDataGenerator::CreateBiSSFrame()
+void BISSSafetySimulationDataGenerator::CreateBiSSSsafetyFrame()
 //-------------------------------------------------------------------------------------------------
 {
     // START,CTS
@@ -178,6 +178,6 @@ void BISSSimulationDataGenerator::CreateBiSSFrame()
     vMaSlo( BIT_HIGH, BIT_LOW );
     vMaSlo( BIT_HIGH, BIT_LOW );
 
-    mBiSSSimulationChannels.AdvanceAll( 1500.0 );
+    mBiSSSafetySimulationChannels.AdvanceAll( 1500.0 );
 }
 //-------------------------------------------------------------------------------------------------
