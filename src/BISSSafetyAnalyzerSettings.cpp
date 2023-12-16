@@ -71,7 +71,7 @@ bool BISSSafetyAnalyzerSettings::SetSettingsFromInterfaces()
     mMaChannel = mMaChannelInterface->GetChannel();
     mSloChannel = mSloChannelInterface->GetChannel();
     mDataLengthCPW = mDataLengthCPWInterface->GetInteger();
-    mDataLengthCPW = mDataLengthSPWInterface->GetInteger();
+    mDataLengthSPW = mDataLengthSPWInterface->GetInteger();
     mDatenart = mDatenartInterface->GetNumber();
 
     ClearChannels();
