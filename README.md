@@ -37,7 +37,7 @@ Since CPW and STW can have different resolutions, there is a minimum number of b
 In the example CPW (ST=24bits) with SPW (ST=16bits), this number is given as 13.
 
 ---
-&#9888; REST is identical to README from https://github.com/saleae/biss-analyzer
+&#9888; This heavily based on the "normal" BISS analyzer: https://github.com/saleae/biss-analyzer
 
 ---
 
@@ -69,6 +69,10 @@ Optionally, build from the command line without opening Visual Studio:
 
 ```
 cmake --build .
+```
+
+```
+cmake --build . --config Release
 ```
 
 The built analyzer DLLs will be located here:
