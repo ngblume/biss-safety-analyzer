@@ -73,8 +73,8 @@ class BISSSafetyAnalyzer : public Analyzer2
     U64 m_endperiod;
     int m_samplesperperiod;
 
-    BitState m_sdata_array[ 500 ]; //  shoudl be sufficient even with safety data
-    U64 m_sdata_samplenummer_array[ 500 ];
+    BitState m_sdata_array[ 800 ]; //  should be sufficient even with safety data
+    U64 m_sdata_samplenummer_array[ 800 ];
 
 
     // U32 m_ulInternalValue;

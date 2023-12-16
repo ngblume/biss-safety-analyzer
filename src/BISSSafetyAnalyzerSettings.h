@@ -15,7 +15,6 @@ class BISSSafetyAnalyzerSettings : public AnalyzerSettings
     virtual void LoadSettings( const char* settings );
     virtual const char* SaveSettings();
 
-
     Channel mMaChannel;
     Channel mSloChannel;
 

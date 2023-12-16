@@ -19,7 +19,7 @@ void BISSSafetySimulationDataGenerator::Initialize( U32 simulation_sample_rate, 
     mSimulationSampleRateHz = simulation_sample_rate;
     mSettings = settings;
 
-    mClockGenerator.Init( 4000000, simulation_sample_rate );
+    mClockGenerator.Init( 5000000, simulation_sample_rate );
 
     mMa = mBiSSSafetySimulationChannels.Add( settings->mMaChannel, mSimulationSampleRateHz, BIT_HIGH );
     mSlo = mBiSSSafetySimulationChannels.Add( settings->mSloChannel, mSimulationSampleRateHz, BIT_HIGH );
@@ -124,7 +124,7 @@ void BISSSafetySimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
 
 
 //-------------------------------------------------------------------------------------------------
-void BISSSafetySimulationDataGenerator::CreateBiSSSsafetyFrame()
+void BISSSafetySimulationDataGenerator::CreateBiSSSafetyFrame()
 //-------------------------------------------------------------------------------------------------
 {
     // START,CTS

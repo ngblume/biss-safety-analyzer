@@ -39,9 +39,9 @@ BISSSafetyAnalyzerSettings::BISSSafetyAnalyzerSettings()
     //---------------------------------------------------------------------------------------------------------------------------------
     AddInterface( mMaChannelInterface.get() );
     AddInterface( mSloChannelInterface.get() );
-    AddInterface( mDatenartInterface.get() );
     AddInterface( mDataLengthCPWInterface.get() );
     AddInterface( mDataLengthSPWInterface.get() );
+    AddInterface( mDatenartInterface.get() );
 
     AddExportOption( 0, "Export as text/csv file" );
     AddExportExtension( 0, "text", "txt" );
