@@ -54,10 +54,12 @@ void BISSSafetySimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
 {
     mBiSSSafetySimulationChannels.AdvanceAll( mClockGenerator.AdvanceByHalfPeriod( 100.0 ) );
 
-    unsigned long ulDataLength;
-    ulDataLength = mSettings->mDataLength;
+    unsigned long ulDataLengthCPW;
+    ulDataLengthCPW = mSettings->mDataLengthCPW;
+    unsigned long ulDataLengthSPW;
+    ulDataLengthSPW = mSettings->mDataLengthSPW;
     unsigned long ulMaEdges;
-    ulMaEdges = ( 32 + ( 2 * ulDataLength ) );
+    ulMaEdges = ( 32 + ( 2 * ulDataLengthCPW ) );
 
 
     for( U32 i = 0; i < ulMaEdges; i++ )
@@ -90,15 +92,15 @@ void BISSSafetySimulationDataGenerator::vMaSlo( BitState Cdm, BitState Cds )
 
         if( i == 24 )
             mSlo->Transition();
-        if( i == ( ( 2 * ulDataLength ) + 8 ) )
+        if( i == ( ( 2 * ulDataLengthCPW ) + 8 ) )
             mSlo->Transition();
 
-        if( i == ( ( 2 * ulDataLength ) + 16 ) )
+        if( i == ( ( 2 * ulDataLengthCPW ) + 16 ) )
             mSlo->Transition();
-        if( i == ( ( 2 * ulDataLength ) + 20 ) )
+        if( i == ( ( 2 * ulDataLengthCPW ) + 20 ) )
             mSlo->Transition();
 
-        if( i == ( ( 2 * ulDataLength ) + 24 ) )
+        if( i == ( ( 2 * ulDataLengthCPW ) + 24 ) )
             mSlo->Transition();
     }
 

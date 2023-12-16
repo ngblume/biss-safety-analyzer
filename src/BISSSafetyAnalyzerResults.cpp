@@ -1,11 +1,11 @@
-#include "BISSSAfetyAnalyzerResults.h"
+#include "BISSSafetyAnalyzerResults.h"
 #include <AnalyzerHelpers.h>
 #include "BISSSafetyAnalyzer.h"
 #include "BISSSafetyAnalyzerSettings.h"
 
 #include <iostream>
 #include <fstream>
-BISSSAfetyAnalyzerResults::BISSSafetyAnalyzerResults( BISSSafetyAnalyzer* analyzer, BISSSAfetyAnalyzerSettings* settings )
+BISSSafetyAnalyzerResults::BISSSafetyAnalyzerResults( BISSSafetyAnalyzer* analyzer, BISSSafetyAnalyzerSettings* settings )
     : AnalyzerResults(), mSettings( settings ), mAnalyzer( analyzer )
 {
 }
@@ -562,7 +562,7 @@ void BISSSafetyAnalyzerResults::GeneratePacketTabularText( U64 packet_id, Displa
     AddResultString( "not supported" );
 }
 
-void BISSSAfetyAnalyzerResults::GenerateTransactionTabularText( U64 transaction_id, DisplayBase display_base )
+void BISSSafetyAnalyzerResults::GenerateTransactionTabularText( U64 transaction_id, DisplayBase display_base )
 {
     ClearResultStrings();
     AddResultString( "not supported" );

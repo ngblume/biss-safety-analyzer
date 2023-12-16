@@ -111,12 +111,12 @@ void BISSSafetyAnalyzer::GetData()
     U64 sensor_daten_CPW;
     DataBuilder obj_sensordaten_CPW;
 
-    obj_sensordaten_CPW.Reset( &sensor_daten, AnalyzerEnums::MsbFirst, mSettings->mDataLengthCPW );
+    obj_sensordaten_CPW.Reset( &sensor_daten_CPW, AnalyzerEnums::MsbFirst, mSettings->mDataLengthCPW );
 
     U64 sensor_daten_SPW;
     DataBuilder obj_sensordaten_SPW;
 
-    obj_sensordaten_SPW.Reset( &sensor_daten, AnalyzerEnums::MsbFirst, mSettings->mDataLengthSPW );
+    obj_sensordaten_SPW.Reset( &sensor_daten_SPW, AnalyzerEnums::MsbFirst, mSettings->mDataLengthSPW );
 
     BitState bit_state_slo;
     BitState bit_state_ma;
