@@ -1,4 +1,4 @@
-# Saleae BiSS SAFETY (bidirectional/serial/synchronous) Analyzer
+# Saleae BiSS SAFETY Analyzer
 
 Saleae BiSS SAFETY (bidirectional/serial/synchronous) Analyzer
 
@@ -36,9 +36,9 @@ The lifecounter simply counts up from 0x00 (d00) to 0x3F (d63) and then rolls ov
 Since CPW and STW can have different resolutions, there is a minimum number of bits, that needs to be identical for the data to be considered OK.
 In the example CPW (ST=24bits) with SPW (ST=16bits), this number is given as 13.
 
-============================================================
-REST is identical to README from https://github.com/saleae/biss-analyzer
-============================================================
+---
+&#9888; REST is identical to README from https://github.com/saleae/biss-analyzer
+---
 
 ## Getting Started
 
