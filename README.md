@@ -5,23 +5,23 @@ Saleae BiSS SAFETY (bidirectional/serial/synchronous) Analyzer
 ## Difference to "normal" BISS
 
 BISS Safety differs from "normal" BISS by simply adding more data after the CRC and before the BISS timeout (end of message).
-Therefore, teh BISS SAFETY standard defines a "CPW" (control position word, identical to non-safety BISS), followed by a "SPW" (safety position word).
-MT and ST are the serial data of a frame.
+Therefore, the BISS SAFETY standard defines a "CPW" (control position word, identical to non-safety BISS), followed by a "SPW" (safety position word).
+Multiturn (MT) and singleturn (ST) data is the serial data of a frame.
 They are consisting of the following data:
 CPW:
 + MT (multiturn) - different number of bits depending on resolution
 + ST (singleturn) - different number of bits depending on resolution
-+ notError - 1 bit
++ notError - 1bit
 + notWarning - 1bit
 + notCRC (6 bits, CRC with 0x43 polynom) (CRC is being transmitted inverted)
 
 SPW:
 + MT (multiturn) - different number of bits depending on resolution
 + ST (singleturn) - different number of bits depending on resolution
-+ notError - 1 bit
-+ notWarning - 1 bit
-+ LifeCounter - 6 bits
-+ notCRC (16 bits, CRC with 0x190D9 polynom) (CRC is being transmitted inverted)
++ notError - 1bit
++ notWarning - 1bit
++ LifeCounter - 6bits
++ notCRC (16bits, CRC with 0x190D9 polynom) (CRC is being transmitted inverted)
 
 Usually, the resolution is different for CPW and STW.
 Common combinations are for example:
