@@ -2,6 +2,7 @@
 #define BISSSAFETY_ANALYZER_H
 
 #include <Analyzer.h>
+
 #include "BISSSafetyAnalyzerResults.h"
 #include "BISSSafetySimulationDataGenerator.h"
 

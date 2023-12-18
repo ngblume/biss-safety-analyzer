@@ -1,5 +1,7 @@
 #include "BISSSafetyAnalyzer.h"
 #include "BISSSafetyAnalyzerSettings.h"
+#include "BISSSafetyAnalyzerResults.h"
+
 #include <AnalyzerChannelData.h>
 
 BISSSafetyAnalyzer::BISSSafetyAnalyzer() : Analyzer2(), mSettings( new BISSSafetyAnalyzerSettings() ), mSimulationInitilized( false )
@@ -334,7 +336,7 @@ void BISSSafetyAnalyzer::GetData()
                 // FRAME v2
                 FrameV2 SPW_EW_frame_v2;
                 SPW_EW_frame_v2.AddInteger( "value", ewlccrc16_daten );
-                SPW_EW_frame_v2.AddFrameV2( SPW_EW_frame_v2, "SPW-nEnW", SPW_EW_frame.mStartingSampleInclusive, SPW_EW_frame.mEndingSampleInclusive );
+                mResults->AddFrameV2( SPW_EW_frame_v2, "SPW-nEnW", SPW_EW_frame.mStartingSampleInclusive, SPW_EW_frame.mEndingSampleInclusive );
 
                 mResults->CommitResults();
                 // ================= END FRAMES =============================
@@ -363,7 +365,7 @@ void BISSSafetyAnalyzer::GetData()
                 // FRAME v2
                 FrameV2 SPW_LC_frame_v2;
                 SPW_LC_frame_v2.AddInteger( "value", ewlccrc16_daten );
-                SPW_LC_frame_v2.AddFrameV2( SPW_LC_frame_v2, "SPW-LC", SPW_LC_frame.mStartingSampleInclusive, SPW_LC_frame.mEndingSampleInclusive );
+                mResults->AddFrameV2( SPW_LC_frame_v2, "SPW-LC", SPW_LC_frame.mStartingSampleInclusive, SPW_LC_frame.mEndingSampleInclusive );
 
                 mResults->CommitResults();
                 // ================= END FRAMES =============================
@@ -392,7 +394,7 @@ void BISSSafetyAnalyzer::GetData()
                 // FRAME v2
                 FrameV2 SPW_CRC16_frame_v2;
                 SPW_CRC16_frame_v2.AddInteger( "value", ewlccrc16_daten );
-                SPW_CRC16_frame_v2.AddFrameV2( SPW_CRC16_frame_v2, "SPW-CRC16", SPW_CRC16_frame.mStartingSampleInclusive, SPW_CRC16_frame.mEndingSampleInclusive );
+                mResults->AddFrameV2( SPW_CRC16_frame_v2, "SPW-CRC16", SPW_CRC16_frame.mStartingSampleInclusive, SPW_CRC16_frame.mEndingSampleInclusive );
 
                 mResults->CommitResults();
 
