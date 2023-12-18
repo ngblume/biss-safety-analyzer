@@ -7,6 +7,9 @@ BISSSafetyAnalyzer::BISSSafetyAnalyzer() : Analyzer2(), mSettings( new BISSSafet
 {
     SetAnalyzerSettings( mSettings.get() );
 
+    // Provide frames as V2 as well, to allow post-processing by HLAs
+    UseFrameV2();
+
     m_counter_cdm = 0;
     m_counter_cds = 0;
     m_counter_newframe = 0;
@@ -199,6 +202,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_sensordaten_CPW.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame CPW_SDATA_frame;
                 CPW_SDATA_frame.mType = 1;
                 CPW_SDATA_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ 1 ];
@@ -207,7 +213,14 @@ void BISSSafetyAnalyzer::GetData()
                 CPW_SDATA_frame.mData2 = mSettings->mDataLengthCPW;
                 CPW_SDATA_frame.mFlags = 1; // CPW-SDATA
                 mResults->AddFrame( CPW_SDATA_frame );
+
+                // FRAME v2
+                FrameV2 CPW_SDATA_frame_v2;
+                CPW_SDATA_frame_v2.AddInteger( "value", sensor_daten_CPW );
+                mResults->AddFrameV2( CPW_SDATA_frame_v2, "CPW-Data", CPW_SDATA_frame.mStartingSampleInclusive, CPW_SDATA_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //-------------------------------------------------------------------------------------------
 
@@ -219,6 +232,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_ewcrc6.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame CPW_EW_frame;
                 CPW_EW_frame.mType = 1;
                 CPW_EW_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ ( mSettings->mDataLengthCPW + 1 ) ];
@@ -227,7 +243,14 @@ void BISSSafetyAnalyzer::GetData()
                 CPW_EW_frame.mData2 = 2;
                 CPW_EW_frame.mFlags = 2; // CPW-nEnW
                 mResults->AddFrame( CPW_EW_frame );
+
+                // FRAME v2
+                FrameV2 CPW_EW_frame_v2;
+                CPW_EW_frame_v2.AddInteger( "value", ewcrc6_daten );
+                mResults->AddFrameV2( CPW_EW_frame_v2, "CPW-nEnW",  CPW_EW_frame.mStartingSampleInclusive, CPW_EW_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //------------------------------------------------------------------------------------------
 
@@ -239,6 +262,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_ewcrc6.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame CPW_CRC_frame;
                 CPW_CRC_frame.mType = 1;
                 CPW_CRC_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ ( mSettings->mDataLengthCPW + 3 ) ];
@@ -247,7 +273,14 @@ void BISSSafetyAnalyzer::GetData()
                 CPW_CRC_frame.mData2 = 6;
                 CPW_CRC_frame.mFlags = 3; //CPW-CRC
                 mResults->AddFrame( CPW_CRC_frame );
+                
+                // FRAME v2
+                FrameV2 CPW_CRC_frame_v2;
+                CPW_CRC_frame_v2.AddInteger( "value", ewcrc6_daten );
+                mResults->AddFrameV2( CPW_CRC_frame_v2, "CPW-CRC6", CPW_CRC_frame.mStartingSampleInclusive, CPW_CRC_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //------------------------------------------------------------------------------------------
 
@@ -257,6 +290,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_sensordaten_SPW.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame SPW_SDATA_frame;
                 SPW_SDATA_frame.mType = 1;
                 SPW_SDATA_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ mSettings->mDataLengthCPW + 8 + 1 ];
@@ -265,7 +301,14 @@ void BISSSafetyAnalyzer::GetData()
                 SPW_SDATA_frame.mData2 = mSettings->mDataLengthSPW;
                 SPW_SDATA_frame.mFlags = 4; // SPW-SDATA
                 mResults->AddFrame( SPW_SDATA_frame );
+
+                // FRAME v2
+                FrameV2 SPW_SDATA_frame_v2;
+                SPW_SDATA_frame_v2.AddInteger( "value", sensor_daten_SPW );
+                mResults->AddFrameV2( SPW_SDATA_frame_v2, "SPW-DATA", SPW_SDATA_frame.mStartingSampleInclusive, SPW_SDATA_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //-------------------------------------------------------------------------------------------
 
@@ -276,6 +319,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_ewlccrc16.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame SPW_EW_frame;
                 SPW_EW_frame.mType = 1;
                 SPW_EW_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ ( mSettings->mDataLengthCPW + 8 + mSettings->mDataLengthSPW + 1 ) ];
@@ -284,7 +330,14 @@ void BISSSafetyAnalyzer::GetData()
                 SPW_EW_frame.mData2 = 2;
                 SPW_EW_frame.mFlags = 5; // CPW-nEnW
                 mResults->AddFrame( SPW_EW_frame );
+                
+                // FRAME v2
+                FrameV2 SPW_EW_frame_v2;
+                SPW_EW_frame_v2.AddInteger( "value", ewlccrc16_daten );
+                SPW_EW_frame_v2.AddFrameV2( SPW_EW_frame_v2, "SPW-nEnW", SPW_EW_frame.mStartingSampleInclusive, SPW_EW_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //------------------------------------------------------------------------------------------
 
@@ -295,6 +348,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_ewlccrc16.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame SPW_LC_frame;
                 SPW_LC_frame.mType = 1;
                 SPW_LC_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ ( mSettings->mDataLengthCPW + 8 + mSettings->mDataLengthSPW + 3 ) ];
@@ -303,7 +359,14 @@ void BISSSafetyAnalyzer::GetData()
                 SPW_LC_frame.mData2 = 6;
                 SPW_LC_frame.mFlags = 6; //SPW-LC
                 mResults->AddFrame( SPW_LC_frame );
+
+                // FRAME v2
+                FrameV2 SPW_LC_frame_v2;
+                SPW_LC_frame_v2.AddInteger( "value", ewlccrc16_daten );
+                SPW_LC_frame_v2.AddFrameV2( SPW_LC_frame_v2, "SPW-LC", SPW_LC_frame.mStartingSampleInclusive, SPW_LC_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
+                // ================= END FRAMES =============================
 
                 //------------------------------------------------------------------------------------------
                 
@@ -314,6 +377,9 @@ void BISSSafetyAnalyzer::GetData()
                     obj_ewlccrc16.AddBit( m_sdata_array[ j ] );
                 }
 
+                // ================= CREATE FRAMES =============================
+
+                // FRAME v1
                 Frame SPW_CRC16_frame;
                 SPW_CRC16_frame.mType = 1;
                 SPW_CRC16_frame.mStartingSampleInclusive = m_sdata_samplenummer_array[ ( mSettings->mDataLengthCPW + 8 + mSettings->mDataLengthSPW + 8 + 1 ) ];
@@ -322,6 +388,12 @@ void BISSSafetyAnalyzer::GetData()
                 SPW_CRC16_frame.mData2 = 16;
                 SPW_CRC16_frame.mFlags = 7; //SPW-CRC16
                 mResults->AddFrame( SPW_CRC16_frame );
+
+                // FRAME v2
+                FrameV2 SPW_CRC16_frame_v2;
+                SPW_CRC16_frame_v2.AddInteger( "value", ewlccrc16_daten );
+                SPW_CRC16_frame_v2.AddFrameV2( SPW_CRC16_frame_v2, "SPW-CRC16", SPW_CRC16_frame.mStartingSampleInclusive, SPW_CRC16_frame.mEndingSampleInclusive );
+
                 mResults->CommitResults();
 
                 //------------------------------------------------------------------------------------------

@@ -442,10 +442,10 @@ void BISSSafetyAnalyzerResults::GenerateFrameTabularText( U64 frame_index, Displ
                     sprintf( result_str2, "CPW-nEnW [ %s ]", number_str );
                     break;
                 case 3: // CPW-CRC6
-                    sprintf( result_str2, "CPC_CRC6 [ %s ]", number_str );
+                    sprintf( result_str2, "CPC-CRC6 [ %s ]", number_str );
                     break;
                 case 4: // SPW-DATA
-                    sprintf( result_str2, "SPW_DATA [ %s ]", number_str );
+                    sprintf( result_str2, "SPW-DATA [ %s ]", number_str );
                     break;
                 case 5: // SPW-nEnW
                     sprintf( result_str2, "SPW-nEnW [ %s ]", number_str );
