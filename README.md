@@ -2,6 +2,11 @@
 
 Saleae BiSS SAFETY (bidirectional/serial/synchronous) Analyzer
 
+---
+&#9888; Providing FramesV2 to up-stream hLAs is currently ongoing....
+
+---
+
 ## Difference to "normal" BISS
 
 BISS Safety differs from "normal" BISS by simply adding more data after the CRC and before the BISS timeout (end of message).
